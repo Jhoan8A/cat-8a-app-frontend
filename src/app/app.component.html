@@ -1,0 +1,14 @@
+<nav class="navbar">
+  <div class="nav-container">
+    <a routerLink="/breeds" class="logo">🐱 Cat Breeds App</a>
+    <div class="nav-links">
+      <a routerLink="/breeds" routerLinkActive="active">Breeds</a>
+      <a routerLink="/search" routerLinkActive="active">Search</a>
+      <a *ngIf="!isLoggedIn" routerLink="/login" routerLinkActive="active">Login</a>
+      <a *ngIf="!isLoggedIn" routerLink="/register" routerLinkActive="active">Register</a>
+      <a *ngIf="isLoggedIn" routerLink="/profile" routerLinkActive="active">Profile</a>
+    </div>
+  </div>
+</nav>
+
+<router-outlet />

@@ -1,0 +1,145 @@
+<div class="breeds-container">
+  <h1>Cat Breeds</h1>
+
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <div class="loading-message" *ngIf="loading">
+    Loading breeds...
+  </div>
+
+  <div class="breeds-content" *ngIf="!loading">
+    <!-- Breed Selector -->
+    <div class="breed-selector">
+      <label for="breed-select">Select a breed:</label>
+      <select id="breed-select" (change)="onBreedSelect($event)" class="form-select">
+        <option value="">-- Choose a breed --</option>
+        <option *ngFor="let breed of breeds" [value]="breed.id">
+          {{ breed.name }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Selected Breed Details -->
+    <p-card *ngIf="selectedBreed" [header]="selectedBreed.name" styleClass="breed-card">
+      <!-- Image Carousel -->
+      <div class="carousel" *ngIf="breedImages.length > 0">
+        <p-button
+          icon="pi pi-chevron-left"
+          (click)="previousImage()"
+          [disabled]="loadingImages"
+          styleClass="p-button-rounded carousel-btn">
+        </p-button>
+        <div class="carousel-image">
+          <img *ngIf="currentImage" [src]="currentImage.url" [alt]="selectedBreed.name" />
+          <div class="image-counter">
+            {{ currentImageIndex + 1 }} / {{ breedImages.length }}
+          </div>
+        </div>
+        <p-button
+          icon="pi pi-chevron-right"
+          (click)="nextImage()"
+          [disabled]="loadingImages"
+          styleClass="p-button-rounded carousel-btn">
+        </p-button>
+      </div>
+
+      <div class="loading-images" *ngIf="loadingImages">
+        <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+        Loading images...
+      </div>
+
+      <!-- Breed Information -->
+      <div class="breed-info">
+        <div class="info-grid">
+          <div class="info-item">
+            <label><i class="pi pi-map-marker"></i> Origin:</label>
+            <p>{{ selectedBreed.origin }}</p>
+          </div>
+          <div class="info-item">
+            <label><i class="pi pi-clock"></i> Life Span:</label>
+            <p>{{ selectedBreed.life_span }} years</p>
+          </div>
+          <div class="info-item">
+            <label><i class="pi pi-chart-line"></i> Weight:</label>
+            <p>{{ selectedBreed.weight.metric }} kg</p>
+          </div>
+          <div class="info-item">
+            <label><i class="pi pi-heart"></i> Temperament:</label>
+            <p>{{ selectedBreed.temperament }}</p>
+          </div>
+        </div>
+
+        <div class="info-description">
+          <label><i class="pi pi-info-circle"></i> Description:</label>
+          <p>{{ selectedBreed.description }}</p>
+        </div>
+
+        <div class="breed-stats" *ngIf="selectedBreed.affection_level">
+          <h3>Breed Characteristics</h3>
+          <div class="stats-grid">
+            <div class="stat-item" *ngIf="selectedBreed.affection_level">
+              <label>Affection Level:</label>
+              <div class="stat-bar">
+                <div class="stat-fill" [style.width.%]="selectedBreed.affection_level * 20"></div>
+              </div>
+            </div>
+            <div class="stat-item" *ngIf="selectedBreed.child_friendly">
+              <label>Child Friendly:</label>
+              <div class="stat-bar">
+                <div class="stat-fill" [style.width.%]="selectedBreed.child_friendly * 20"></div>
+              </div>
+            </div>
+            <div class="stat-item" *ngIf="selectedBreed.energy_level">
+              <label>Energy Level:</label>
+              <div class="stat-bar">
+                <div class="stat-fill" [style.width.%]="selectedBreed.energy_level * 20"></div>
+              </div>
+            </div>
+            <div class="stat-item" *ngIf="selectedBreed.intelligence">
+              <label>Intelligence:</label>
+              <div class="stat-bar">
+                <div class="stat-fill" [style.width.%]="selectedBreed.intelligence * 20"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-card>
+
+    <!-- All Breeds Table -->
+    <div class="breeds-table">
+      <h2>All Breeds</h2>
+      <p-table
+        [value]="breeds"
+        [paginator]="true"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [tableStyle]="{'min-width': '50rem'}"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} breeds"
+        [globalFilterFields]="['name', 'origin', 'temperament']"
+        styleClass="p-datatable-striped">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Name</th>
+            <th>Origin</th>
+            <th>Temperament</th>
+            <th>Life Span</th>
+            <th>Weight (kg)</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-breed>
+          <tr>
+            <td>{{ breed.name }}</td>
+            <td>{{ breed.origin }}</td>
+            <td>{{ breed.temperament }}</td>
+            <td>{{ breed.life_span }} years</td>
+            <td>{{ breed.weight.metric }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

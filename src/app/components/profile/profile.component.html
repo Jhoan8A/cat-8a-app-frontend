@@ -1,0 +1,36 @@
+<div class="profile-container">
+  <div class="profile-card">
+    <h2>User Profile</h2>
+
+    <div class="loading-message" *ngIf="loading">
+      <p>Loading profile...</p>
+    </div>
+
+    <div class="error-message" *ngIf="errorMessage && !loading">
+      {{ errorMessage }}
+    </div>
+
+    <div class="profile-content" *ngIf="currentUser && !loading">
+      <div class="profile-info">
+        <div class="info-item">
+          <label>Name:</label>
+          <p>{{ currentUser.name }}</p>
+        </div>
+
+        <div class="info-item">
+          <label>Email:</label>
+          <p>{{ currentUser.email }}</p>
+        </div>
+
+        <div class="info-item" *ngIf="currentUser.createdAt">
+          <label>Member since:</label>
+          <p>{{ currentUser.createdAt | date: 'medium' }}</p>
+        </div>
+      </div>
+
+      <button class="btn btn-logout" (click)="logout()">
+        Logout
+      </button>
+    </div>
+  </div>
+</div>

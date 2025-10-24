@@ -1,0 +1,72 @@
+<div class="search-container">
+  <h1>Search Cat Breeds</h1>
+
+  <div class="search-box">
+    <div class="search-input-group">
+      <span class="p-input-icon-left" style="flex: 1;">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          type="text"
+          [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearch()"
+          placeholder="Search by name, origin, temperament..."
+          style="width: 100%;"
+        />
+      </span>
+      <p-button
+        label="Search"
+        icon="pi pi-search"
+        (click)="onSearch()"
+        [loading]="loading"
+        [disabled]="loading">
+      </p-button>
+      <p-button
+        label="Clear"
+        icon="pi pi-times"
+        (click)="clearSearch()"
+        *ngIf="hasSearched"
+        styleClass="p-button-secondary">
+      </p-button>
+    </div>
+  </div>
+
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <div class="search-results" *ngIf="hasSearched && !loading && searchResults.length > 0">
+    <h2>Search Results ({{ searchResults.length }})</h2>
+
+    <p-table
+      [value]="searchResults"
+      [paginator]="true"
+      [rows]="10"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      [tableStyle]="{'min-width': '50rem'}"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} results"
+      styleClass="p-datatable-striped">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Name</th>
+          <th>Origin</th>
+          <th>Temperament</th>
+          <th>Life Span</th>
+          <th>Weight (kg)</th>
+          <th>Description</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-breed>
+        <tr>
+          <td class="breed-name">{{ breed.name }}</td>
+          <td>{{ breed.origin }}</td>
+          <td>{{ breed.temperament }}</td>
+          <td>{{ breed.life_span }} years</td>
+          <td>{{ breed.weight.metric }}</td>
+          <td class="description">{{ breed.description }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
