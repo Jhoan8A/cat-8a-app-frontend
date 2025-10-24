@@ -113,8 +113,8 @@ docker run -p 80:80 cat-frontend
 
 | Ruta | Descripción | Protegida |
 |------|-------------|-----------|
-| `/breeds` | Lista y detalle de razas | No |
-| `/search` | Búsqueda de razas | No |
+| `/breeds` | Lista y detalle de razas | Sí |
+| `/search` | Búsqueda de razas | Sí |
 | `/login` | Iniciar sesión | No |
 | `/register` | Registro | No |
 | `/profile` | Perfil de usuario | Sí |
